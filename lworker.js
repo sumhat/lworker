@@ -102,13 +102,24 @@
     self.pools = {};
   };
   
-  Leona.Util.Task.Scheduler.prototype.add = function(task) {
+  Leona.Util.Task.Scheduler.prototype.addTask = function(task) {
     var self = this;
+    
     if (!self.pools[task.type.name]) {
       var newPool = new Leona.Util.Task.Pool(task.type);
       newPool.start();
       self.pools[task.type.name] = newPool;
     }
     self.pools[task.type.name].add(task);
+  };
+  
+  Leona.Util.Task.Scheduler.prototype.add = function(task) {
+    var self = this;
+    if (task instanceof Leona.Util.Task) {
+      self.addTask(task);
+    } else {
+      var taskObj = new Leona.Util.Task('Anonymous Task', Leona.Util.Task.Types.Local, task);
+      self.addTask(taskObj);
+    }
   };
 })();
