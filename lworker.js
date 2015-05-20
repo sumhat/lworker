@@ -22,7 +22,7 @@
   
   Leona.Util.Task.prototype.isReadyToRun = function() {
     var self = this;
-    return !self.notRunUntil || (new Date()).getTime() <= self.notRunUntil;
+    return !self.notRunUntil || (new Date()).getTime() >= self.notRunUntil;
   };
   
   Leona.Util.Task.prototype.run = function(callback) {
@@ -62,18 +62,25 @@
   
   Leona.Util.Task.Pool.prototype.start = function() {
     var self = this;
+    if (self.worker) {
+      return;
+    }
     self.worker = setInterval(function() {
       if (self.qps >= self.qpsLimit) {
         return;
       }
-      ++self.qps;
       var task = self.fetchReadyTask();
       if (task) {
+        ++self.qps;
         task.run(function() {
           setTimeout(function() {
             --self.qps;
           }, 1000);
         });
+      }
+      if (self.done()) {
+        clearInterval(self.worker);
+        self.worker = null;
       }
     }, 100);
   };
@@ -81,6 +88,7 @@
   Leona.Util.Task.Pool.prototype.add = function(task) {
     var self = this;
     self.tasks.push(task);
+    self.start();
   };
   
   Leona.Util.Task.Pool.prototype.fetchReadyTask = function() {
@@ -97,6 +105,10 @@
     return task;
   };
   
+  Leona.Util.Task.Pool.prototype.done = function() {
+    return this.tasks.length === 0;
+  };
+  
   Leona.Util.Task.Scheduler = function(options) {
     var self = this;
     self.pools = {};
@@ -107,7 +119,6 @@
     
     if (!self.pools[task.type.name]) {
       var newPool = new Leona.Util.Task.Pool(task.type);
-      newPool.start();
       self.pools[task.type.name] = newPool;
     }
     self.pools[task.type.name].add(task);
@@ -122,4 +133,6 @@
       self.addTask(taskObj);
     }
   };
+  
+  Leona.scheduler = new Leona.Util.Task.Scheduler();
 })();
