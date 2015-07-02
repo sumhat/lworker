@@ -48,7 +48,7 @@
     },
     'Network': {
       'name': 'Network',
-      'qps': 2
+      'qps': 4
     }
   };
   
