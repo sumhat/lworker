@@ -28,7 +28,7 @@
       if (self.opts.delay) {
         var notRunUntil = new Date().getTime() + self.opts.delay;
         self.conditions.push(new Leona.Util.Condition(function() {
-          (new Date()).getTime() >= notRunUntil;
+          return (new Date()).getTime() >= notRunUntil;
         }));
       }
       if (self.opts.condition) {
