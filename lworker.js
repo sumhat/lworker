@@ -164,8 +164,12 @@
     if (task instanceof Leona.Util.Task) {
       self.addTask(task);
     } else {
-      var taskObj = new Leona.Util.Task('Anonymous Task', Leona.Util.Task.Types.Local, task);
-      self.addTask(taskObj);
+      self.addTask(new Leona.Util.Task(
+        task.name || 'Anonymous Task',
+        task.type || Leona.Util.Task.Types.Simple,
+        task.func,
+        task.opts
+      ));
     }
   };
   
