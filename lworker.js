@@ -27,12 +27,12 @@
     if (self.opts) {
       if (self.opts.delay) {
         var notRunUntil = new Date().getTime() + self.opts.delay;
-        self.conditions.push(function() {
+        self.conditions.push(new Leona.Util.Condition(function() {
           (new Date()).getTime() >= notRunUntil;
-        });
+        }));
       }
       if (self.opts.condition) {
-        self.conditions.push(self.opts.condition);
+        self.conditions.push(new Leona.Util.Condition(self.opts.condition));
       }
       if (self.opts.renew) {
         self.renew = self.opts.renew;
