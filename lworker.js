@@ -9,20 +9,39 @@
     Leona.Util = {};
   }
   
+  Leona.Util.Condition = function(tester) {
+    this.tester = tester;
+  };
+  
+  Leona.Util.Condition.prototype.met = function() {
+    return (!!this.tester()) === true;
+  };
+  
   Leona.Util.Task = function(name, type, exec, options) {
     var self = this;
     self.name = name;
     self.type = type;
     self.exec = exec;
     self.opts = options;
-    if (self.opts.delay) {
-      self.notRunUntil = new Date().getTime() + self.opts.delay;
+    self.conditions = [];
+    if (self.opts) {
+      if (self.opts.delay) {
+        var notRunUntil = new Date().getTime() + self.opts.delay;
+        self.conditions.push(function() {
+          (new Date()).getTime() >= notRunUntil;
+        });
+      }
+      if (self.opts.condition) {
+        self.conditions.push(self.opts.condition);
+      }
     }
   };
   
   Leona.Util.Task.prototype.isReadyToRun = function() {
     var self = this;
-    return !self.notRunUntil || (new Date()).getTime() >= self.notRunUntil;
+    return self.conditions.every(function(condition) {
+      return condition.met();
+    });
   };
   
   Leona.Util.Task.prototype.run = function(callback) {
