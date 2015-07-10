@@ -34,6 +34,9 @@
       if (self.opts.condition) {
         self.conditions.push(self.opts.condition);
       }
+      if (self.opts.renew) {
+        self.renew = self.opts.renew;
+      }
     }
   };
   
@@ -43,6 +46,16 @@
       return condition.met();
     });
   };
+  
+  Leona.Util.Task.prototype.shouldRenew = function() {
+    if (self.renew === true) {
+      return true;
+    }
+    if (typeof self.renew === 'function') {
+      return (!!self.renew()) === true;
+    }
+    return false;
+  }
   
   Leona.Util.Task.prototype.run = function(callback) {
     var self = this;
@@ -94,6 +107,9 @@
         task.run(function() {
           setTimeout(function() {
             --self.qps;
+            if (task.shouldRenew()) {
+              self.add(task);
+            }
           }, 1000);
         });
       }
