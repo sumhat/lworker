@@ -23,11 +23,11 @@
     self.opts = options;
     self.conditions = [];
     self.running = false;
+    self.time = new Date().getTime();
     if (self.opts) {
       if (self.opts.delay) {
-        var notRunUntil = new Date().getTime() + self.opts.delay;
         self.conditions.push(new Condition(function() {
-          return (new Date()).getTime() >= notRunUntil;
+          return (new Date()).getTime() >= self.time + self.opts.delay;
         }));
       }
       if (self.opts.condition) {
@@ -64,10 +64,13 @@
     return false;
   }
   
-  Task.prototype.start = function() {
+  Task.prototype.start = function(refresh) {
     var self = this;
     if (self.running) {
       return;
+    }
+    if (refresh) {
+      self.time = new Date().getTime();
     }
     scheduler.addTask(self);
   };
@@ -128,7 +131,7 @@
           setTimeout(function() {
             --self.qps;
             if (task.shouldRenew()) {
-              self.add(task);
+              task.start(true);
             }
           }, 1000);
         });
