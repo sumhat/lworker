@@ -9,7 +9,6 @@
     "url": "https://github.com/sumhat/lworker.git"
   },
   "directories": {
-    "test": "./__test__"
   },
   "keywords": [
     "task",
