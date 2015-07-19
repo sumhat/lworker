@@ -86,7 +86,7 @@ if (typeof Leona === 'undefined') {
     }
     
     setTimeout(function() {
-      if (self.opts.isAsyncExec) {
+      if (self.opts.async || self.opts.isAsyncExec) {
         self.exec(finishExecution);
       } else {
         self.exec();
