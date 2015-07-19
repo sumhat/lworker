@@ -23,8 +23,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "jasmine": "^2.3.1",
-    "jest-cli": "^0.4.15"
+    "jasmine": "^2.3.1"
   },
   "bugs": {
     "url": "https://github.com/sumhat/lworker/issues"
