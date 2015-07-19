@@ -184,7 +184,7 @@ if (typeof Leona === 'undefined') {
     self.pools[task.type.name].add(task);
   };
   
-  var scheduler = new Task.Sceduler();
+  var scheduler = new Task.Scheduler();
   
   Leona.scheduler = scheduler;
   Leona.Task = Task;
