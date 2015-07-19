@@ -112,7 +112,7 @@ if (typeof Leona === 'undefined') {
     
     setTimeout(function() {
       if (self.opts && (self.opts.async || self.opts.isAsyncExec)) {
-        self.execa.call(self.data || this, finishExecution);
+        self.exec.call(self.data || this, finishExecution);
       } else {
         self.exec.call(self.data || this);
         finishExecution();
