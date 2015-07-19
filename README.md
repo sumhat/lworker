@@ -1,6 +1,8 @@
 # Leona Worker
 A task scheduler for Javascript.
 
+[![Build Status via Travis CI](https://travis-ci.org/sumhat/lworker.svg?branch=master)](https://travis-ci.org/sumhat/lworker)
+
 ## Features
 * QPS restriction on different type of task
 * Able to rerun a task immediately or on demand after it finishes.
