@@ -67,7 +67,7 @@ if (typeof Leona === 'undefined') {
     return false;
   }
   
-  Task.prototype.start = function(refresh) {
+  Task.prototype.start = function() {
     var self = this;
     if (self.running) {
       return;
