@@ -2,6 +2,7 @@
 A task scheduler for Javascript.
 
 [![Build Status via Travis CI](https://travis-ci.org/sumhat/lworker.svg?branch=master)](https://travis-ci.org/sumhat/lworker)
+[![Coverage Status](https://coveralls.io/repos/sumhat/lworker/badge.svg?branch=master&service=github)](https://coveralls.io/github/sumhat/lworker?branch=master)
 
 ## Features
 * QPS restriction on different type of task
