@@ -102,7 +102,7 @@ if (typeof Leona === 'undefined') {
     },
     'Ui': {
       'name': 'Ui',
-      'qps': 7
+      'qps': 10
     },
     'Network': {
       'name': 'Network',
