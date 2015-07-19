@@ -1,7 +1,11 @@
 # Leona Worker
 A task scheduler for Javascript.
 
-## Api:
+## Features
+* QPS restriction on different type of task
+* Able to rerun a task immediately or on demand after it finishes.
+
+## Api
 Task defination:
 ```javascript
 {
