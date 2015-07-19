@@ -1,5 +1,7 @@
-/* global Leona */
-
+if (typeof Leona === 'undefined') {
+  var Leona = {};
+}
+  
 (function() {
   function executeCallback(callback) {
     if (callback) {
@@ -184,9 +186,6 @@
   
   var scheduler = new Task.Sceduler();
   
-  if (typeof Leona !== 'undefined') {
-    Leona = {};
-  }
   Leona.scheduler = scheduler;
   Leona.Task = Task;
 })();
