@@ -133,10 +133,12 @@ if (typeof Leona === 'undefined') {
         task.run(function() {
           setTimeout(function() {
             --self.qps;
-            if (task.shouldRenew()) {
-              task.start();
-            }
           }, 1000);
+          if (task.shouldRenew()) {
+            setTimeout(function() {
+              task.start();
+            });
+          }
         });
       }
       if (self.done()) {
