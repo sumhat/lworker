@@ -185,11 +185,8 @@
   var scheduler = new Task.Sceduler();
   
   if (typeof Leona !== 'undefined') {
-    Leona.scheduler = scheduler;
-    Leona.Task = Task;
-    if (Leona.Util) {
-      Leona.Util.Task = Task;
-    }
+    Leona = {};
   }
-  
+  Leona.scheduler = scheduler;
+  Leona.Task = Task;
 })();
