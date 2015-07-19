@@ -27,6 +27,7 @@ if (typeof Leona === 'undefined') {
     self.running = false;
     self.time = new Date().getTime();
     if (self.opts) {
+      self.data = self.opts.data;
       if (self.opts.delay) {
         self.conditions.push(new Condition(function() {
           return (new Date()).getTime() >= self.time + self.opts.delay;
@@ -86,7 +87,7 @@ if (typeof Leona === 'undefined') {
       return true;
     }
     if (typeof self.renew === 'function') {
-      return (!!self.renew.call(self.opts)) === true;
+      return (!!self.renew.call(self.data || self)) === true;
     }
     return false;
   }
@@ -110,14 +111,10 @@ if (typeof Leona === 'undefined') {
     }
     
     setTimeout(function() {
-      var data = this;
-      if (self.opts && self.opts.data) {
-        data = self.opts.data;
-      }
       if (self.opts && (self.opts.async || self.opts.isAsyncExec)) {
-        self.execa.call(data, finishExecution);
+        self.execa.call(self.data || this, finishExecution);
       } else {
-        self.exec.call(data);
+        self.exec.call(self.data || this);
         finishExecution();
       }
     });
