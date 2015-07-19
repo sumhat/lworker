@@ -50,4 +50,28 @@ describe("Simple task creation", function() {
     });
     task.start();
   });
+  
+  it("renews task", function(done) {
+    var task = leona.Task.create({
+      name: 'simple-task',
+      type: leona.Task.Types.Simple,
+      func: function() {
+        ++this.exec;
+        if (this.exec === 3) {
+          done();
+        }
+      },
+      opts: {
+        data: {
+          count: 0,
+          exec: 0
+        },
+        renew: function() {
+          return this.count < 3;
+        },
+        delay: 200
+      }
+    });
+    task.start();
+  });
 });
