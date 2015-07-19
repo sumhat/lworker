@@ -2,7 +2,7 @@
   "author": "Shuhai Shen <sumhat@gmail.com> (https://leonax.net/)",
   "name": "leona.lworker",
   "description": "A simple task scheduler.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lworker.js",
   "repository": {
     "type": "git",
