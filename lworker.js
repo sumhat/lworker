@@ -85,12 +85,14 @@ if (typeof Leona === 'undefined') {
       executeCallback(callback);
     }
     
-    if (self.opts.isAsyncExec) {
-      self.exec(finishExecution);
-    } else {
-      self.exec();
-      finishExecution();
-    }
+    setTimeout(function() {
+      if (self.opts.isAsyncExec) {
+        self.exec(finishExecution);
+      } else {
+        self.exec();
+        finishExecution();
+      }
+    });
   };
   
   Task.Types = {
