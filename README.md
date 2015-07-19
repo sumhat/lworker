@@ -80,3 +80,34 @@ var task = Leona.Task.create({
   }
 });
 ```
+
+Retry on fail:
+
+```javascript
+Leona.Task.create({
+  name: 'retry',
+  type: Leona.Task.Types.Network,
+  func: function(callback) {
+    var self = this;
+    $.ajax({
+      error: function(xhr, textStatus, errorThrown ) {
+        self.tryCount++;
+      },
+      success: function(data, textStatus, xhr) {
+        self.retry = 0; // Stop retrying
+        callback();
+      }
+    });
+  },
+  opts: {
+    data: {  // Will be passed into func and renew as 'this'.
+      retry = 3,
+      tryCount = 0
+    },
+    async: true,
+    renew: function() {
+      return this.tryCount < this.retry;
+    }
+  }
+});
+```
