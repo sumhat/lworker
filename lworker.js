@@ -56,11 +56,18 @@ if (typeof Leona === 'undefined') {
       type: Task.Types.Simple,
       func: function() {
         var entry = array.shift();
-        if (!settings.opts) {
-          settings.opts = {};
-        }
-        settings.opts.data = entry;
-        Task.create(settings).start();
+        Task.create({
+          name: settings.name,
+          type: settings.type,
+          func: settings.func,
+          opts: {
+            data: entry,
+            delay: settings.delay,
+            renew: settings.renew,
+            condition: settings.condition,
+            async: settings.async
+          }
+        }).start();
       },
       opts: {
         data: array,
