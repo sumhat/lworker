@@ -62,7 +62,7 @@ if (typeof Leona === 'undefined') {
       return true;
     }
     if (typeof self.renew === 'function') {
-      return (!!self.renew()) === true;
+      return (!!self.renew.call(self.opts)) === true;
     }
     return false;
   }
