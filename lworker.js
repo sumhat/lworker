@@ -70,7 +70,6 @@ if (typeof Leona === 'undefined') {
         }).start();
       },
       opts: {
-        data: array,
         condition: function() {
           return array.length > 0;
         },
@@ -134,16 +133,17 @@ if (typeof Leona === 'undefined') {
     },
     'Ui': {
       'name': 'Ui',
-      'qps': 10
+      'qps': 20
     },
     'Network': {
       'name': 'Network',
-      'qps': 4
+      'qps': 6
     }
   };
   
   Task.Pool = function(options) {
     var self = this;
+    self.name = options.name;
     self.qps = 0;
     self.qpsLimit = options.qps || 1000;
     self.tasks = [];
@@ -167,9 +167,7 @@ if (typeof Leona === 'undefined') {
             --self.qps;
           }, 1000);
           if (task.shouldRenew()) {
-            setTimeout(function() {
-              task.start();
-            });
+            task.start();
           }
         });
       }
