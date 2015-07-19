@@ -49,6 +49,30 @@ if (typeof Leona === 'undefined') {
         settings.opts);
   }
   
+  Task.parallel = function(array, settings) {
+    return Task.create({
+      name: 'parallel-task-generator',
+      type: Task.Types.Simple,
+      func: function() {
+        var entry = array.shift();
+        if (!settings.opts) {
+          settings.opts = {};
+        }
+        settings.opts.data = entry;
+        Task.create(settings).start();
+      },
+      opts: {
+        data: array,
+        condition: function() {
+          return array.length > 0;
+        },
+        renew: function() {
+          return array.length > 0;
+        }
+      }
+    });
+  };
+  
   Task.prototype.isReadyToRun = function() {
     var self = this;
     return self.conditions.every(function(condition) {
@@ -86,10 +110,14 @@ if (typeof Leona === 'undefined') {
     }
     
     setTimeout(function() {
+      var data = this;
+      if (self.opts && self.opts.data) {
+        data = self.opts.data;
+      }
       if (self.opts && (self.opts.async || self.opts.isAsyncExec)) {
-        self.exec(finishExecution);
+        self.execa.call(data, finishExecution);
       } else {
-        self.exec();
+        self.exec.call(data);
         finishExecution();
       }
     });
