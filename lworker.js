@@ -57,6 +57,7 @@ if (typeof Leona === 'undefined') {
   };
   
   Task.prototype.shouldRenew = function() {
+    var self = this;
     if (self.renew === true) {
       return true;
     }
@@ -71,9 +72,7 @@ if (typeof Leona === 'undefined') {
     if (self.running) {
       return;
     }
-    if (refresh) {
-      self.time = new Date().getTime();
-    }
+    self.time = new Date().getTime();
     scheduler.addTask(self);
   };
   
@@ -133,7 +132,7 @@ if (typeof Leona === 'undefined') {
           setTimeout(function() {
             --self.qps;
             if (task.shouldRenew()) {
-              task.start(true);
+              task.start();
             }
           }, 1000);
         });
