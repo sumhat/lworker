@@ -18,7 +18,7 @@
   "scripts": {
     "test": "jasmine",
     "coverage": "nyc npm test && nyc report",
-    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov"
   },
   "engines": {
     "node": ">=0.4.8"
