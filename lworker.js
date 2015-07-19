@@ -129,21 +129,25 @@ if (typeof Leona === 'undefined') {
   Task.Types = {
     'Simple': {
       'name': 'Simple',
-      'qps': 1000
+      'qps': 1000,
+      'sleep': 20
     },
     'Ui': {
       'name': 'Ui',
-      'qps': 20
+      'qps': 20,
+      'sleep': 50
     },
     'Network': {
       'name': 'Network',
-      'qps': 6
+      'qps': 6,
+      'sleep': 100
     }
   };
   
   Task.Pool = function(options) {
     var self = this;
     self.name = options.name;
+    self.sleep = options.sleep || 500;
     self.qps = 0;
     self.qpsLimit = options.qps || 1000;
     self.tasks = [];
@@ -175,7 +179,7 @@ if (typeof Leona === 'undefined') {
         clearInterval(self.worker);
         self.worker = null;
       }
-    }, 100);
+    }, self.sleep);
   };
   
   Task.Pool.prototype.add = function(task) {
