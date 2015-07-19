@@ -4,7 +4,7 @@ A task scheduler for Javascript.
 ## Examples
 Create a task:
 
-```
+```javascript
 var task = Leona.Task.create({
   name: 'simple-task',
   type: Leona.Task.Types.Simple,
@@ -16,6 +16,6 @@ var task = Leona.Task.create({
 
 Execute a task:
 
-```
+```javascript
 task.start();
 ```
