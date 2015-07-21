@@ -9,6 +9,14 @@ if (typeof Leona === 'undefined') {
     }
   }
   
+  function evaluate(value, thisObj, paramArray) {
+    if (typeof value === 'function') {
+      paramArray = paramArray || [];
+      return value.apply(thisObj, paramArray);
+    }
+    return value;
+  }
+  
   var Condition = function(tester) {
     this.tester = tester;
   };
@@ -26,11 +34,12 @@ if (typeof Leona === 'undefined') {
     self.conditions = [];
     self.running = false;
     self.time = new Date().getTime();
+    self.data = {};
     if (self.opts) {
-      self.data = self.opts.data;
+      self.data = self.opts.data || {};
       if (self.opts.delay) {
         self.conditions.push(new Condition(function() {
-          return (new Date()).getTime() >= self.time + self.opts.delay;
+          return (new Date()).getTime() >= self.time + evaluate(self.opts.delay, self.data);
         }));
       }
       if (self.opts.condition) {
@@ -89,13 +98,8 @@ if (typeof Leona === 'undefined') {
   
   Task.prototype.shouldRenew = function() {
     var self = this;
-    if (self.renew === true) {
-      return true;
-    }
-    if (typeof self.renew === 'function') {
-      return (!!self.renew.call(self.data || self)) === true;
-    }
-    return false;
+    var result = evaluate(self.renew, self.data);
+    return !!result;
   }
   
   Task.prototype.start = function() {
